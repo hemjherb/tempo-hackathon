@@ -61,7 +61,7 @@ export function SelectServices() {
       <div className="max-w-6xl mx-auto w-full px-6 pb-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Column - Services Grid */}
-          <div className="w-full lg:w-[60%]">
+          <div className="w-full lg:w-[50%]">
             {/* Header with title and progress bar */}
             <div className="flex items-start justify-between mb-8">
               <h2 className="text-3xl font-display text-gray-800">
@@ -90,135 +90,106 @@ export function SelectServices() {
           </div>
 
           {/* Right Column - Appointment Details (Desktop) */}
-          <div className="hidden lg:block w-[40%]">
-            <div className="sticky top-8">
-              {/* Ticket-style summary card */}
-              <div className="bg-[#2C3E2D] rounded-3xl p-8 min-h-[500px] relative overflow-hidden">
-                {/* Scalloped edge effect - top */}
-                <div className="absolute top-0 left-0 right-0 h-4 flex justify-around">
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-4 h-4 bg-white rounded-full -mt-2"
-                    />
-                  ))}
-                </div>
+          <div className="hidden lg:block w-[50%]">
+            <div className="sticky top-8 h-[calc(100vh-120px)]">
+              {/* Appointment card with SVG background */}
+              <div className="relative h-full rounded-3xl overflow-hidden">
+                {/* Background SVG */}
+                <img 
+                  src="/images/appointment.svg" 
+                  alt="" 
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                
+                {/* Content overlay */}
+                <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
+                  <h3 className="text-[#F4F4F6] font-medium text-sm uppercase tracking-wider mb-6">
+                    Appointment Details
+                  </h3>
 
-                {/* Logo */}
-                <div className="text-center mb-6 pt-4">
-                  <img src="/images/logogreen.svg" alt="Logo" className="h-8 mx-auto brightness-0 invert sepia saturate-[10] hue-rotate-[15deg]" />
-                </div>
+                  {selectedService ? (
+                    <div className="space-y-4 w-full max-w-xs">
+                      <div className="border-b border-[#F4F4F6]/20 pb-4">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          SERVICE
+                        </p>
+                        <h4 className="text-xl font-display text-[#F4F4F6]">
+                          {selectedService.name}
+                        </h4>
+                      </div>
 
-                <h3 className="text-white/80 font-medium text-sm uppercase tracking-wider mb-6">
-                  Appointment Details
-                </h3>
+                      <div className="border-b border-[#F4F4F6]/20 pb-4">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          DURATION
+                        </p>
+                        <p className="text-lg text-[#F4F4F6]">
+                          {selectedService.duration}mins
+                        </p>
+                      </div>
 
-                {selectedService ? (
-                  <div className="space-y-4">
-                    <div className="border-b border-white/20 pb-4">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        SERVICE
-                      </p>
-                      <h4 className="text-xl font-display text-white">
-                        {selectedService.name}
-                      </h4>
+                      <div className="border-b border-[#F4F4F6]/20 pb-4">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          DATE
+                        </p>
+                        <p className="text-lg text-[#F4F4F6]/50">_________________</p>
+                      </div>
+
+                      <div className="border-b border-[#F4F4F6]/20 pb-4">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          TIME
+                        </p>
+                        <p className="text-lg text-[#F4F4F6]/50">_________________</p>
+                      </div>
+
+                      <div className="pt-2">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          TOTAL
+                        </p>
+                        <span className="bg-[#BF994C] text-white font-display text-2xl px-4 py-2 rounded-lg inline-block">
+                          ${selectedService.price}
+                        </span>
+                      </div>
                     </div>
+                  ) : (
+                    <div className="space-y-4 w-full max-w-xs">
+                      <div className="border-b border-[#F4F4F6]/20 pb-4">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          SERVICE
+                        </p>
+                        <p className="text-lg text-[#F4F4F6]/30">_________________</p>
+                      </div>
 
-                    <div className="border-b border-white/20 pb-4">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        DURATION
-                      </p>
-                      <p className="text-lg text-white">
-                        {selectedService.duration}mins
-                      </p>
-                    </div>
+                      <div className="border-b border-[#F4F4F6]/20 pb-4">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          DURATION
+                        </p>
+                        <p className="text-lg text-[#F4F4F6]/30">_________________</p>
+                      </div>
 
-                    <div className="border-b border-white/20 pb-4">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        DATE
-                      </p>
-                      <p className="text-lg text-white/50">_________________</p>
-                    </div>
+                      <div className="border-b border-[#F4F4F6]/20 pb-4">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          DATE
+                        </p>
+                        <p className="text-lg text-[#F4F4F6]/30">_________________</p>
+                      </div>
 
-                    <div className="border-b border-white/20 pb-4">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        TIME
-                      </p>
-                      <p className="text-lg text-white/50">_________________</p>
-                    </div>
+                      <div className="border-b border-[#F4F4F6]/20 pb-4">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          TIME
+                        </p>
+                        <p className="text-lg text-[#F4F4F6]/30">_________________</p>
+                      </div>
 
-                    <div className="pt-2">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        TOTAL
-                      </p>
-                      <span className="bg-[#BF994C] text-white font-display text-2xl px-4 py-2 rounded-lg inline-block">
-                        ${selectedService.price}
-                      </span>
+                      <div className="pt-2">
+                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                          TOTAL
+                        </p>
+                        <span className="bg-[#F4F4F6]/20 text-[#F4F4F6]/50 font-display text-2xl px-4 py-2 rounded-lg inline-block">
+                          $0
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="border-b border-white/20 pb-4">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        SERVICE
-                      </p>
-                      <p className="text-lg text-white/30">_________________</p>
-                    </div>
-
-                    <div className="border-b border-white/20 pb-4">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        DURATION
-                      </p>
-                      <p className="text-lg text-white/30">_________________</p>
-                    </div>
-
-                    <div className="border-b border-white/20 pb-4">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        DATE
-                      </p>
-                      <p className="text-lg text-white/30">_________________</p>
-                    </div>
-
-                    <div className="border-b border-white/20 pb-4">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        TIME
-                      </p>
-                      <p className="text-lg text-white/30">_________________</p>
-                    </div>
-
-                    <div className="pt-2">
-                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                        TOTAL
-                      </p>
-                      <span className="bg-white/20 text-white/50 font-display text-2xl px-4 py-2 rounded-lg inline-block">
-                        $0
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {/* QR Code placeholder */}
-                <div className="mt-8 flex justify-center">
-                  <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center">
-                    <div className="grid grid-cols-5 gap-0.5">
-                      {Array.from({ length: 25 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className={`w-3 h-3 ${Math.random() > 0.5 ? "bg-[#2C3E2D]" : "bg-white"}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Scalloped edge effect - bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-4 flex justify-around">
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-4 h-4 bg-white rounded-full mt-2"
-                    />
-                  ))}
+                  )}
                 </div>
               </div>
             </div>
