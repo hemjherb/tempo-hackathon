@@ -51,7 +51,7 @@ export function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-b from-[#EBF1F5] to-[#F5F7FA]">
+      <section className="relative pt-20 pb-24 bg-cover bg-center" style={{ backgroundImage: "url('/images/image.png')" }}>
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
           {/* Floating Elements (Decorative) */}
           <div className="absolute top-0 left-1/4 -translate-x-1/2 -translate-y-1/2 hidden lg:block">
@@ -84,7 +84,7 @@ export function Landing() {
           </div>
 
           {/* Dashboard Preview */}
-          <div className="relative max-w-5xl mx-auto">
+          <div className="relative max-w-5xl mx-auto -mb-48">
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200/50">
               {/* Browser Bar */}
               <div className="bg-gray-50 px-4 py-3 border-b border-gray-100 flex items-center gap-2">
@@ -174,7 +174,7 @@ export function Landing() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-white">
+      <section className="pt-32 pb-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             <div>
@@ -498,31 +498,26 @@ export function Landing() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto bg-[#0B1120] rounded-[3rem] overflow-hidden relative">
-          {/* Background Pattern/Image */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1626263195578-186532513231?w=1200&q=80')] bg-cover bg-center mix-blend-overlay"></div>
-          </div>
-          
-          <div className="relative z-10 py-24 px-6 text-center">
-            <h2 className="text-4xl md:text-6xl text-white mb-6" style={{ fontFamily: "'Gloock', serif" }}>
-              Ready to Stop Losing Bookings?
-            </h2>
-            <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10">
-              Join thousands of small business owners who've simplified their scheduling with Vello.
-              Start your free trial today - no credit card required.
-            </p>
-            <Button className="h-14 px-10 bg-[#6366f1] hover:bg-[#4f46e5] text-white rounded-lg text-lg">
-              Start Free Trial
-            </Button>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-[#0B1120] text-white pt-20 pb-10">
+        {/* CTA Section */}
+        <section className="py-20 px-6">
+          <div className="max-w-7xl mx-auto bg-cover bg-center rounded-[3rem] overflow-hidden relative" style={{ backgroundImage: "url('/images/footer.png')" }}>
+            
+            <div className="relative z-10 py-24 px-6 text-center">
+              <h2 className="text-4xl md:text-6xl text-[#1a1a1a] mb-6" style={{ fontFamily: "'Gloock', serif" }}>
+                Ready to Stop Losing Bookings?
+              </h2>
+              <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+                Join thousands of small business owners who've simplified their scheduling with Vello.
+                Start your free trial today - no credit card required.
+              </p>
+              <Button className="h-14 px-10 bg-[#6366f1] hover:bg-[#4f46e5] text-white rounded-lg text-lg">
+                Start Free Trial
+              </Button>
+            </div>
+          </div>
+        </section>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-1">
