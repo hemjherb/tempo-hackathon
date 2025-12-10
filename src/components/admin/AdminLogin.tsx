@@ -89,6 +89,11 @@ export function AdminLogin() {
             ← Back to booking
           </a>
         </p>
+        <p className="text-center text-sm text-gray-500 mt-2">
+          <a href="/admin/dashboard" className="text-[#BF994C] hover:text-[#A8824A]">
+            Go to Admin Dashboard →
+          </a>
+        </p>
       </div>
     </div>
   );

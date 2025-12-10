@@ -10,6 +10,7 @@ import { AdminServices } from "./components/admin/AdminServices";
 import { AdminAppointments } from "./components/admin/AdminAppointments";
 import { AdminCustomers } from "./components/admin/AdminCustomers";
 import { AdminSettings } from "./components/admin/AdminSettings";
+import { Landing } from "./components/Landing";
 
 function App() {
   return (
@@ -17,12 +18,14 @@ function App() {
       <>
         <Routes>
           <Route path="/" element={<BookingApp />} />
+          <Route path="/landing" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route path="/appointments" element={<AppointmentsPage />} />
           
           {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="services" element={<AdminServices />} />
             <Route path="appointments" element={<AdminAppointments />} />

@@ -85,7 +85,7 @@ export function AdminLayout() {
                 </div>
               </div>
               <Link
-                to="/admin"
+                to="/admin/login"
                 className="flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-white/10 hover:text-white rounded-lg transition-all mt-2"
               >
                 <LogOut className="h-5 w-5" />

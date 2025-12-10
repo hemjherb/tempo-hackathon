@@ -7,7 +7,9 @@ import {
   CreditCard,
   Shield,
   Palette,
-  Save
+  Save,
+  Crown,
+  Check
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -99,6 +101,10 @@ export function AdminSettings() {
           <TabsTrigger value="payments" className="data-[state=active]:bg-[#414e36] data-[state=active]:text-white">
             <CreditCard className="h-4 w-4 mr-2" />
             Payments
+          </TabsTrigger>
+          <TabsTrigger value="subscription" className="data-[state=active]:bg-[#414e36] data-[state=active]:text-white">
+            <Crown className="h-4 w-4 mr-2" />
+            Subscription
           </TabsTrigger>
         </TabsList>
 
@@ -548,6 +554,117 @@ export function AdminSettings() {
                     <Input defaultValue="#414e36" className="h-11 font-mono" />
                   </div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Subscription Settings */}
+        <TabsContent value="subscription">
+          <Card className="bg-white border-gray-100">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2" style={{ fontFamily: "'Gloock', serif" }}>
+                <Crown className="h-5 w-5 text-[#BF994C]" />
+                Your Subscription
+              </CardTitle>
+              <CardDescription>Manage your subscription plan</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Current Plan */}
+              <div className="bg-[#FFF8E7] rounded-xl p-6 border-2 border-[#BF994C]">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-[#BF994C] flex items-center justify-center">
+                      <Crown className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-normal text-[#1a1a1a]" style={{ fontFamily: "'Gloock', serif" }}>Professional</p>
+                      <p className="text-sm text-gray-500">Current Plan</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-3xl font-normal text-[#1a1a1a]" style={{ fontFamily: "'Gloock', serif" }}>$19.00</p>
+                    <p className="text-sm text-gray-500">/ month</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 mb-4">For growing businesses</p>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
+                    <Check className="h-4 w-4 mr-1" />
+                    Active
+                  </span>
+                  <span className="text-sm text-gray-500">Next billing: Feb 15, 2024</span>
+                </div>
+              </div>
+
+              {/* Plan Features */}
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-4" style={{ fontFamily: "'Gloock', serif" }}>Plan Features</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="flex items-center gap-3 p-3 bg-[#FAFBF9] rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <span className="text-gray-700">Unlimited bookings</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-[#FAFBF9] rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <span className="text-gray-700">Unlimited services</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-[#FAFBF9] rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-yellow-100 flex items-center justify-center">
+                      <Clock className="h-4 w-4 text-yellow-600" />
+                    </div>
+                    <span className="text-gray-700">SMS reminders <span className="text-xs text-gray-400">(coming soon)</span></span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-[#FAFBF9] rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <span className="text-gray-700">Custom branding</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-[#FAFBF9] rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <span className="text-gray-700">Advanced analytics</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-[#FAFBF9] rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <span className="text-gray-700">Priority support</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-[#FAFBF9] rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <span className="text-gray-700">No-show tracking</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-[#FAFBF9] rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <span className="text-gray-700">Export data</span>
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Billing Actions */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button variant="outline" className="flex-1 border-gray-300">
+                  View Billing History
+                </Button>
+                <Button variant="outline" className="flex-1 border-gray-300">
+                  Update Payment Method
+                </Button>
+                <Button variant="outline" className="flex-1 border-red-200 text-red-600 hover:bg-red-50">
+                  Cancel Subscription
+                </Button>
               </div>
             </CardContent>
           </Card>

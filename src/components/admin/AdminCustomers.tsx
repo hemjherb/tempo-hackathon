@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import { 
-  Search, 
+  Users,
+  UserPlus,
   Mail,
   Phone,
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  Eye,
-  MoreVertical,
-  UserPlus,
-  Download
+  Eye
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Dialog,
@@ -20,110 +14,79 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 
 const dummyCustomers = [
   {
     id: 1,
-    name: 'Sarah Johnson',
-    email: 'sarah.j@email.com',
+    name: 'Sara Johnson',
+    email: 'sara.j@email.com',
     phone: '(555) 123-4567',
-    joinDate: '2023-06-15',
     totalBookings: 12,
     totalSpent: 840,
-    lastVisit: '2024-01-10',
     status: 'active',
-    favoriteService: 'Deep Tissue Massage',
   },
   {
     id: 2,
-    name: 'Michael Chen',
-    email: 'mchen@email.com',
+    name: 'Hank Henson',
+    email: 'hank.h@email.com',
     phone: '(555) 234-5678',
-    joinDate: '2023-08-22',
     totalBookings: 8,
     totalSpent: 560,
-    lastVisit: '2024-01-08',
     status: 'active',
-    favoriteService: 'Swedish Massage',
   },
   {
     id: 3,
-    name: 'Emily Davis',
-    email: 'emily.d@email.com',
+    name: 'Tom Hardy',
+    email: 'tom.h@email.com',
     phone: '(555) 345-6789',
-    joinDate: '2023-03-10',
     totalBookings: 24,
     totalSpent: 2160,
-    lastVisit: '2024-01-12',
     status: 'vip',
-    favoriteService: 'Hot Stone Therapy',
   },
   {
     id: 4,
-    name: 'James Wilson',
-    email: 'jwilson@email.com',
+    name: 'Fred Henry',
+    email: 'fred.h@email.com',
     phone: '(555) 456-7890',
-    joinDate: '2023-11-05',
     totalBookings: 3,
     totalSpent: 210,
-    lastVisit: '2023-12-20',
     status: 'active',
-    favoriteService: 'Aromatherapy',
   },
   {
     id: 5,
     name: 'Lisa Anderson',
     email: 'lisa.a@email.com',
     phone: '(555) 567-8901',
-    joinDate: '2023-09-18',
     totalBookings: 6,
     totalSpent: 360,
-    lastVisit: '2023-11-15',
     status: 'inactive',
-    favoriteService: 'Sports Massage',
+  },
+];
+
+const stats = [
+  {
+    title: 'Total Customers',
+    value: '156',
+    subtitle: '+12 this month',
+    icon: Users,
+    bgColor: 'bg-[#FFF8E7]',
+    iconColor: 'text-[#414e36]',
   },
   {
-    id: 6,
-    name: 'Robert Brown',
-    email: 'rbrown@email.com',
-    phone: '(555) 678-9012',
-    joinDate: '2023-04-25',
-    totalBookings: 15,
-    totalSpent: 1050,
-    lastVisit: '2024-01-05',
-    status: 'active',
-    favoriteService: 'Deep Tissue Massage',
+    title: 'Active Customers',
+    value: '142',
+    subtitle: '91% active rate',
+    icon: Users,
+    bgColor: 'bg-[#FFF8E7]',
+    iconColor: 'text-[#BF994C]',
   },
   {
-    id: 7,
-    name: 'Jennifer Martinez',
-    email: 'jmartinez@email.com',
-    phone: '(555) 789-0123',
-    joinDate: '2023-07-30',
-    totalBookings: 18,
-    totalSpent: 1350,
-    lastVisit: '2024-01-11',
-    status: 'vip',
-    favoriteService: 'Prenatal Massage',
-  },
-  {
-    id: 8,
-    name: 'David Lee',
-    email: 'dlee@email.com',
-    phone: '(555) 890-1234',
-    joinDate: '2024-01-02',
-    totalBookings: 1,
-    totalSpent: 70,
-    lastVisit: '2024-01-02',
-    status: 'new',
-    favoriteService: 'Swedish Massage',
+    title: 'Total Revenue',
+    value: '$12,450',
+    subtitle: 'From all customers',
+    bgColor: 'bg-[#BF994C]',
+    textColor: 'text-white',
   },
 ];
 
@@ -131,203 +94,110 @@ const statusColors: Record<string, string> = {
   active: 'bg-green-100 text-green-700',
   inactive: 'bg-gray-100 text-gray-700',
   vip: 'bg-purple-100 text-purple-700',
-  new: 'bg-blue-100 text-blue-700',
 };
 
 export function AdminCustomers() {
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState<typeof dummyCustomers[0] | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-
-  const filteredCustomers = dummyCustomers.filter(customer =>
-    customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    customer.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
-  const paginatedCustomers = filteredCustomers.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const stats = {
-    total: dummyCustomers.length,
-    active: dummyCustomers.filter(c => c.status === 'active').length,
-    vip: dummyCustomers.filter(c => c.status === 'vip').length,
-    totalRevenue: dummyCustomers.reduce((sum, c) => sum + c.totalSpent, 0),
-  };
 
   return (
-    <div className="p-6 lg:p-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Customers</h1>
-          <p className="text-gray-500 mt-1">Manage your customer database</p>
-        </div>
-        <div className="flex gap-3">
-          <Button variant="outline" className="border-gray-200">
-            <Download className="h-4 w-4 mr-2" />
-            Export
-          </Button>
-          <Button className="bg-[#BF994C] hover:bg-[#A8824A] text-white">
-            <UserPlus className="h-4 w-4 mr-2" />
-            Add Customer
-          </Button>
-        </div>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <Card className="bg-white border-gray-100">
-          <CardContent className="p-4">
-            <p className="text-2xl font-semibold text-gray-900">{stats.total}</p>
-            <p className="text-sm text-gray-500">Total Customers</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-white border-gray-100">
-          <CardContent className="p-4">
-            <p className="text-2xl font-semibold text-green-600">{stats.active}</p>
-            <p className="text-sm text-gray-500">Active</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-white border-gray-100">
-          <CardContent className="p-4">
-            <p className="text-2xl font-semibold text-purple-600">{stats.vip}</p>
-            <p className="text-sm text-gray-500">VIP Members</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-white border-gray-100">
-          <CardContent className="p-4">
-            <p className="text-2xl font-semibold text-[#BF994C]">${stats.totalRevenue.toLocaleString()}</p>
-            <p className="text-sm text-gray-500">Total Revenue</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Search */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-        <Input
-          placeholder="Search by name or email..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 h-12 bg-white border-gray-200"
-        />
-      </div>
-
-      {/* Customers Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {paginatedCustomers.map((customer) => (
-          <Card key={customer.id} className="bg-white border-gray-100 hover:shadow-md transition-shadow">
+    <div className="p-6 lg:p-8 bg-white min-h-screen">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        {stats.map((stat) => (
+          <Card key={stat.title} className={`${stat.bgColor} border-0 shadow-none`}>
             <CardContent className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#414e36] flex items-center justify-center text-white text-lg font-medium">
-                    {customer.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">{customer.name}</p>
-                    <Badge className={`${statusColors[customer.status]} capitalize text-xs`}>
-                      {customer.status}
-                    </Badge>
-                  </div>
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="p-1 rounded hover:bg-gray-100">
-                      <MoreVertical className="h-4 w-4 text-gray-400" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => setSelectedCustomer(customer)}>
-                      <Eye className="h-4 w-4 mr-2" />
-                      View Details
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Mail className="h-4 w-4 mr-2" />
-                      Send Email
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+              <div className="flex items-center gap-2 mb-4">
+                {stat.icon && <stat.icon className={`h-5 w-5 ${stat.iconColor}`} />}
+                <span className={`text-base font-medium ${stat.textColor || 'text-[#414e36]'}`} style={{ fontFamily: "'Gloock', serif" }}>
+                  {stat.title}
+                </span>
               </div>
-
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2 text-gray-500">
-                  <Mail className="h-4 w-4" />
-                  <span className="truncate">{customer.email}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-500">
-                  <Phone className="h-4 w-4" />
-                  <span>{customer.phone}</span>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-lg font-semibold text-gray-900">{customer.totalBookings}</p>
-                  <p className="text-xs text-gray-500">Bookings</p>
-                </div>
-                <div>
-                  <p className="text-lg font-semibold text-[#BF994C]">${customer.totalSpent}</p>
-                  <p className="text-xs text-gray-500">Total Spent</p>
-                </div>
-              </div>
-
-              <Button
-                variant="outline"
-                className="w-full mt-4 border-gray-200"
-                onClick={() => setSelectedCustomer(customer)}
-              >
-                View Profile
-              </Button>
+              <p className={`text-5xl font-normal mb-2 ${stat.textColor || 'text-[#1a1a1a]'}`} style={{ fontFamily: "'Gloock', serif" }}>
+                {stat.value}
+              </p>
+              <p className={`text-sm ${stat.textColor ? 'text-white/80' : 'text-gray-500'}`}>
+                {stat.subtitle}
+              </p>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-8">
-          <p className="text-sm text-gray-500">
-            Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredCustomers.length)} of {filteredCustomers.length}
-          </p>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <span className="text-sm text-gray-600">
-              Page {currentPage} of {totalPages}
-            </span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      )}
+      {/* Customers Section */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-3xl text-[#1a1a1a]" style={{ fontFamily: "'Gloock', serif" }}>
+          All Customers
+        </h2>
+        <Button className="bg-[#BF994C] hover:bg-[#A8824A] text-white rounded-lg px-5 py-2.5">
+          <UserPlus className="h-4 w-4 mr-2" />
+          Add Customer
+        </Button>
+      </div>
 
-      {filteredCustomers.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500">No customers found.</p>
+      {/* Customers Table */}
+      <div className="overflow-hidden rounded-xl">
+        {/* Table Header */}
+        <div className="grid grid-cols-7 bg-[#E8EBE4] py-4 px-6">
+          <span className="text-sm font-medium text-[#414e36]">Name</span>
+          <span className="text-sm font-medium text-[#414e36] col-span-2">Email</span>
+          <span className="text-sm font-medium text-[#414e36]">Phone</span>
+          <span className="text-sm font-medium text-[#414e36]">Bookings</span>
+          <span className="text-sm font-medium text-[#414e36]">Status</span>
+          <span className="text-sm font-medium text-[#414e36]"></span>
         </div>
-      )}
+
+        {/* Table Body */}
+        <div className="divide-y divide-gray-100">
+          {dummyCustomers.map((customer, index) => (
+            <div 
+              key={customer.id} 
+              className={`grid grid-cols-7 py-5 px-6 items-center ${index % 2 === 0 ? 'bg-[#FAFBF9]' : 'bg-white'}`}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#414e36] flex items-center justify-center text-white font-medium">
+                  {customer.name.charAt(0)}
+                </div>
+                <span className="text-base text-gray-700" style={{ fontFamily: "'Gloock', serif" }}>
+                  {customer.name}
+                </span>
+              </div>
+              <span className="text-base text-gray-500 col-span-2">
+                {customer.email}
+              </span>
+              <span className="text-base text-gray-700">
+                {customer.phone}
+              </span>
+              <span className="text-base font-medium text-[#BF994C]">
+                {customer.totalBookings}
+              </span>
+              <Badge className={`${statusColors[customer.status]} capitalize w-fit`}>
+                {customer.status}
+              </Badge>
+              <div className="flex items-center gap-3 justify-end">
+                <Button 
+                  variant="outline" 
+                  className="border-gray-300 text-gray-600 hover:bg-gray-50 rounded-lg px-4 py-2 text-sm"
+                  onClick={() => setSelectedCustomer(customer)}
+                >
+                  <Eye className="h-4 w-4 mr-2" />
+                  View
+                </Button>
+                <Button 
+                  className="bg-[#BF994C] hover:bg-[#A8824A] text-white rounded-lg px-5 py-2 text-sm"
+                >
+                  Book
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Customer Detail Dialog */}
       <Dialog open={!!selectedCustomer} onOpenChange={() => setSelectedCustomer(null)}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Customer Profile</DialogTitle>
+            <DialogTitle style={{ fontFamily: "'Gloock', serif" }}>Customer Profile</DialogTitle>
           </DialogHeader>
           {selectedCustomer && (
             <div className="space-y-6 mt-4">
@@ -336,7 +206,7 @@ export function AdminCustomers() {
                   {selectedCustomer.name.charAt(0)}
                 </div>
                 <div>
-                  <p className="text-xl font-semibold text-gray-900">{selectedCustomer.name}</p>
+                  <p className="text-xl font-semibold text-gray-900" style={{ fontFamily: "'Gloock', serif" }}>{selectedCustomer.name}</p>
                   <Badge className={`${statusColors[selectedCustomer.status]} capitalize`}>
                     {selectedCustomer.status}
                   </Badge>
@@ -344,15 +214,15 @@ export function AdminCustomers() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <Card className="bg-gray-50 border-0">
+                <Card className="bg-[#FFF8E7] border-0">
                   <CardContent className="p-4 text-center">
-                    <p className="text-2xl font-semibold text-gray-900">{selectedCustomer.totalBookings}</p>
+                    <p className="text-2xl font-semibold text-gray-900" style={{ fontFamily: "'Gloock', serif" }}>{selectedCustomer.totalBookings}</p>
                     <p className="text-sm text-gray-500">Total Bookings</p>
                   </CardContent>
                 </Card>
-                <Card className="bg-gray-50 border-0">
+                <Card className="bg-[#FFF8E7] border-0">
                   <CardContent className="p-4 text-center">
-                    <p className="text-2xl font-semibold text-[#BF994C]">${selectedCustomer.totalSpent}</p>
+                    <p className="text-2xl font-semibold text-[#BF994C]" style={{ fontFamily: "'Gloock', serif" }}>${selectedCustomer.totalSpent}</p>
                     <p className="text-sm text-gray-500">Total Spent</p>
                   </CardContent>
                 </Card>
@@ -367,30 +237,14 @@ export function AdminCustomers() {
                   <Phone className="h-5 w-5 text-gray-400" />
                   <span>{selectedCustomer.phone}</span>
                 </div>
-                <div className="flex items-center gap-3 text-gray-600">
-                  <Calendar className="h-5 w-5 text-gray-400" />
-                  <span>Member since {selectedCustomer.joinDate}</span>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-100 pt-4 space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Favorite Service</span>
-                  <span className="font-medium text-gray-900">{selectedCustomer.favoriteService}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Last Visit</span>
-                  <span className="font-medium text-gray-900">{selectedCustomer.lastVisit}</span>
-                </div>
               </div>
 
               <div className="flex gap-3 pt-2">
-                <Button variant="outline" className="flex-1">
+                <Button variant="outline" className="flex-1 border-gray-300">
                   <Mail className="h-4 w-4 mr-2" />
                   Send Email
                 </Button>
                 <Button className="flex-1 bg-[#BF994C] hover:bg-[#A8824A] text-white">
-                  <Calendar className="h-4 w-4 mr-2" />
                   Book Appointment
                 </Button>
               </div>

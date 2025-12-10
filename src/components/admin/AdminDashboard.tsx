@@ -1,162 +1,133 @@
 import { 
   Calendar, 
   DollarSign, 
-  Users, 
-  TrendingUp,
-  Clock,
-  ArrowUpRight,
-  ArrowDownRight
+  Plus
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const stats = [
   {
-    title: 'Total Revenue',
-    value: '$12,450',
-    change: '+12.5%',
-    trend: 'up',
-    icon: DollarSign,
-  },
-  {
-    title: 'Appointments',
-    value: '156',
-    change: '+8.2%',
-    trend: 'up',
+    title: "Today's Appointments",
+    value: '09',
+    subtitle: 'Next at 2:00PM',
     icon: Calendar,
+    bgColor: 'bg-[#FFF8E7]',
+    iconColor: 'text-[#414e36]',
   },
   {
-    title: 'New Customers',
+    title: "This Week's Appointments",
     value: '32',
-    change: '+15.3%',
-    trend: 'up',
-    icon: Users,
+    subtitle: '+15% from last week',
+    icon: Calendar,
+    bgColor: 'bg-[#FFF8E7]',
+    iconColor: 'text-[#BF994C]',
   },
   {
-    title: 'Avg. Duration',
-    value: '45 min',
-    change: '-2.1%',
-    trend: 'down',
-    icon: Clock,
+    title: 'Revenue (Week)',
+    value: '$1,200',
+    subtitle: 'Across 32 Appointments',
+    icon: DollarSign,
+    bgColor: 'bg-[#BF994C]',
+    iconColor: 'text-white',
+    textColor: 'text-white',
   },
 ];
 
-const recentAppointments = [
-  { id: 1, customer: 'Sarah Johnson', service: 'Deep Tissue Massage', time: '10:00 AM', status: 'Confirmed' },
-  { id: 2, customer: 'Michael Chen', service: 'Swedish Massage', time: '11:30 AM', status: 'Pending' },
-  { id: 3, customer: 'Emily Davis', service: 'Hot Stone Therapy', time: '2:00 PM', status: 'Confirmed' },
-  { id: 4, customer: 'James Wilson', service: 'Aromatherapy', time: '3:30 PM', status: 'Confirmed' },
-  { id: 5, customer: 'Lisa Anderson', service: 'Sports Massage', time: '5:00 PM', status: 'Cancelled' },
-];
-
-const topServices = [
-  { name: 'Deep Tissue Massage', bookings: 45, revenue: '$3,150' },
-  { name: 'Swedish Massage', bookings: 38, revenue: '$2,660' },
-  { name: 'Hot Stone Therapy', bookings: 28, revenue: '$2,520' },
-  { name: 'Aromatherapy', bookings: 24, revenue: '$1,680' },
+const todaySchedule = [
+  { id: 1, time: '9:00am', service: 'Haircut', client: 'Sara Johnson', amount: '$100.00', duration: '20mins' },
+  { id: 2, time: '9:00am', service: 'Shaving', client: 'Hank Henson', amount: '$50.00', duration: '20mins' },
+  { id: 3, time: '9:00am', service: 'Color Treatment', client: 'Tom Hardy', amount: '$60.00', duration: '20mins' },
+  { id: 4, time: '9:00am', service: 'Color Treatment', client: 'Fred Henry', amount: '$60.00', duration: '20mins' },
+  { id: 5, time: '9:00am', service: 'Shaving', client: 'Hank Henson', amount: '$50.00', duration: '20mins' },
 ];
 
 export function AdminDashboard() {
   return (
-    <div className="p-6 lg:p-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Welcome back! Here's what's happening today.</p>
-      </div>
-
+    <div className="p-6 lg:p-8 bg-white min-h-screen">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         {stats.map((stat) => (
-          <Card key={stat.title} className="bg-white border-gray-100">
+          <Card key={stat.title} className={`${stat.bgColor} border-0 shadow-none`}>
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div className="w-12 h-12 rounded-xl bg-[#414e36]/10 flex items-center justify-center">
-                  <stat.icon className="h-6 w-6 text-[#414e36]" />
-                </div>
-                <div className={`flex items-center gap-1 text-sm font-medium ${
-                  stat.trend === 'up' ? 'text-green-600' : 'text-red-500'
-                }`}>
-                  {stat.change}
-                  {stat.trend === 'up' ? (
-                    <ArrowUpRight className="h-4 w-4" />
-                  ) : (
-                    <ArrowDownRight className="h-4 w-4" />
-                  )}
-                </div>
+              <div className="flex items-center gap-2 mb-4">
+                <stat.icon className={`h-5 w-5 ${stat.iconColor}`} />
+                <span className={`text-base font-medium ${stat.textColor || 'text-[#414e36]'}`} style={{ fontFamily: "'Gloock', serif" }}>
+                  {stat.title}
+                </span>
               </div>
-              <div className="mt-4">
-                <p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
-                <p className="text-sm text-gray-500 mt-1">{stat.title}</p>
-              </div>
+              <p className={`text-5xl font-normal mb-2 ${stat.textColor || 'text-[#1a1a1a]'}`} style={{ fontFamily: "'Gloock', serif" }}>
+                {stat.value}
+              </p>
+              <p className={`text-sm ${stat.textColor ? 'text-white/80' : 'text-gray-500'}`}>
+                {stat.subtitle}
+              </p>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Appointments */}
-        <Card className="lg:col-span-2 bg-white border-gray-100">
-          <CardHeader className="border-b border-gray-100">
-            <CardTitle className="text-lg font-semibold">Today's Appointments</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-gray-100">
-              {recentAppointments.map((appointment) => (
-                <div key={appointment.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-[#BF994C]/10 flex items-center justify-center text-[#BF994C] font-medium">
-                      {appointment.customer.charAt(0)}
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">{appointment.customer}</p>
-                      <p className="text-sm text-gray-500">{appointment.service}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium text-gray-900">{appointment.time}</p>
-                    <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
-                      appointment.status === 'Confirmed' 
-                        ? 'bg-green-100 text-green-700'
-                        : appointment.status === 'Pending'
-                        ? 'bg-yellow-100 text-yellow-700'
-                        : 'bg-red-100 text-red-700'
-                    }`}>
-                      {appointment.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      {/* Today's Schedule Section */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-3xl text-[#1a1a1a]" style={{ fontFamily: "'Gloock', serif" }}>
+          Today's Schedule
+        </h2>
+        <Button className="bg-[#BF994C] hover:bg-[#A8824A] text-white rounded-lg px-5 py-2.5">
+          <Plus className="h-4 w-4 mr-2" />
+          Add Booking
+        </Button>
+      </div>
 
-        {/* Top Services */}
-        <Card className="bg-white border-gray-100">
-          <CardHeader className="border-b border-gray-100">
-            <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-[#BF994C]" />
-              Top Services
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-gray-100">
-              {topServices.map((service, index) => (
-                <div key={service.name} className="flex items-center justify-between p-4">
-                  <div className="flex items-center gap-3">
-                    <span className="w-6 h-6 rounded-full bg-[#414e36] text-white text-xs flex items-center justify-center font-medium">
-                      {index + 1}
-                    </span>
-                    <div>
-                      <p className="font-medium text-gray-900 text-sm">{service.name}</p>
-                      <p className="text-xs text-gray-500">{service.bookings} bookings</p>
-                    </div>
-                  </div>
-                  <p className="font-semibold text-[#BF994C]">{service.revenue}</p>
-                </div>
-              ))}
+      {/* Schedule Table */}
+      <div className="overflow-hidden rounded-xl">
+        {/* Table Header */}
+        <div className="grid grid-cols-7 bg-[#E8EBE4] py-4 px-6">
+          <span className="text-sm font-medium text-[#414e36]">Time</span>
+          <span className="text-sm font-medium text-[#414e36]">Service</span>
+          <span className="text-sm font-medium text-[#414e36] col-span-2">Client</span>
+          <span className="text-sm font-medium text-[#414e36]">Amount</span>
+          <span className="text-sm font-medium text-[#414e36]">Duration</span>
+          <span className="text-sm font-medium text-[#414e36]"></span>
+        </div>
+
+        {/* Table Body */}
+        <div className="divide-y divide-gray-100">
+          {todaySchedule.map((item, index) => (
+            <div 
+              key={item.id} 
+              className={`grid grid-cols-7 py-5 px-6 items-center ${index % 2 === 0 ? 'bg-[#FAFBF9]' : 'bg-white'}`}
+            >
+              <span className="text-base text-gray-700" style={{ fontFamily: "'Gloock', serif" }}>
+                {item.time}
+              </span>
+              <span className="text-base text-gray-700">
+                {item.service}
+              </span>
+              <span className="text-base text-gray-700 col-span-2">
+                {item.client}
+              </span>
+              <span className="text-base text-gray-700">
+                {item.amount}
+              </span>
+              <span className="text-base text-gray-700">
+                {item.duration}
+              </span>
+              <div className="flex items-center gap-3 justify-end">
+                <Button 
+                  variant="outline" 
+                  className="border-gray-300 text-gray-600 hover:bg-gray-50 rounded-lg px-4 py-2 text-sm"
+                >
+                  Reschedule
+                </Button>
+                <Button 
+                  className="bg-[#BF994C] hover:bg-[#A8824A] text-white rounded-lg px-5 py-2 text-sm"
+                >
+                  Complete
+                </Button>
+              </div>
             </div>
-          </CardContent>
-        </Card>
+          ))}
+        </div>
       </div>
     </div>
   );
