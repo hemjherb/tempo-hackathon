@@ -6,6 +6,8 @@ import { Service } from "@/types/booking";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { StickyFooter } from "./StickyFooter";
+import { motion, AnimatePresence } from "framer-motion";
+import { PriceDisplay } from "./PriceDisplay";
 
 const services: Service[] = [
   {
@@ -71,7 +73,12 @@ export function SelectServices() {
               {/* Progress bar */}
               <div className="hidden lg:flex items-center gap-3 pt-2">
                 <div className="w-32 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="h-full w-1/4 bg-[#5B6B4E] rounded-full" />
+                  <motion.div 
+                    className="h-full bg-[#5B6B4E] rounded-full" 
+                    initial={{ width: 0 }}
+                    animate={{ width: "25%" }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                  />
                 </div>
               </div>
             </div>
@@ -84,13 +91,19 @@ export function SelectServices() {
                   isSelected={selectedServices.some((s) => s.id === service.id)}
                   onToggle={() => toggleService(service)}
                   showLimitedSlots={index === 0 || index === 2}
+                  index={index}
                 />
               ))}
             </div>
           </div>
 
           {/* Right Column - Appointment Details (Desktop) */}
-          <div className="hidden lg:block w-[50%]">
+          <motion.div 
+            className="hidden lg:block w-[50%]"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
             <div className="sticky top-8 h-[calc(100vh-120px)]">
               {/* Appointment card with SVG background */}
               <div className="relative h-full rounded-3xl overflow-hidden">
@@ -103,93 +116,109 @@ export function SelectServices() {
                 
                 {/* Content overlay */}
                 <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
-                  {selectedService ? (
-                    <div className="space-y-4 w-full max-w-xs">
-                      <div className="border-b border-[#F4F4F6]/20 pb-4">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          SERVICE
-                        </p>
-                        <h4 className="text-xl font-display text-[#F4F4F6]">
-                          {selectedService.name}
-                        </h4>
-                      </div>
+                  <AnimatePresence mode="wait">
+                    {selectedService ? (
+                      <motion.div 
+                        key="selected"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        transition={{ duration: 0.3 }}
+                        className="space-y-4 w-full max-w-xs"
+                      >
+                        <div className="border-b border-[#F4F4F6]/20 pb-4">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            SERVICE
+                          </p>
+                          <h4 className="text-xl font-display text-[#F4F4F6]">
+                            {selectedService.name}
+                          </h4>
+                        </div>
 
-                      <div className="border-b border-[#F4F4F6]/20 pb-4">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          DURATION
-                        </p>
-                        <p className="text-lg text-[#F4F4F6]">
-                          {selectedService.duration}mins
-                        </p>
-                      </div>
+                        <div className="border-b border-[#F4F4F6]/20 pb-4">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            DURATION
+                          </p>
+                          <p className="text-lg text-[#F4F4F6]">
+                            {selectedService.duration}mins
+                          </p>
+                        </div>
 
-                      <div className="border-b border-[#F4F4F6]/20 pb-4">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          DATE
-                        </p>
-                        <p className="text-lg text-[#F4F4F6]/50">_________________</p>
-                      </div>
+                        <div className="border-b border-[#F4F4F6]/20 pb-4">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            DATE
+                          </p>
+                          <p className="text-lg text-[#F4F4F6]/50">_________________</p>
+                        </div>
 
-                      <div className="border-b border-[#F4F4F6]/20 pb-4">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          TIME
-                        </p>
-                        <p className="text-lg text-[#F4F4F6]/50">_________________</p>
-                      </div>
+                        <div className="border-b border-[#F4F4F6]/20 pb-4">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            TIME
+                          </p>
+                          <p className="text-lg text-[#F4F4F6]/50">_________________</p>
+                        </div>
 
-                      <div className="pt-2">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          TOTAL
-                        </p>
-                        <span className="bg-[#BF994C] text-white font-display text-2xl px-4 py-2 rounded-lg inline-block">
-                          ${selectedService.price}
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-4 w-full max-w-xs">
-                      <div className="border-b border-[#F4F4F6]/20 pb-4">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          SERVICE
-                        </p>
-                        <p className="text-lg text-[#F4F4F6]/30">_________________</p>
-                      </div>
+                        <div className="pt-2">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            TOTAL
+                          </p>
+                          <span className="bg-[#BF994C] text-white font-display text-2xl px-4 py-2 rounded-lg inline-block">
+                            <PriceDisplay price={selectedService.price} />
+                          </span>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div 
+                        key="empty"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        transition={{ duration: 0.3 }}
+                        className="space-y-4 w-full max-w-xs"
+                      >
+                        <div className="border-b border-[#F4F4F6]/20 pb-4">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            SERVICE
+                          </p>
+                          <p className="text-lg text-[#F4F4F6]/30">_________________</p>
+                        </div>
 
-                      <div className="border-b border-[#F4F4F6]/20 pb-4">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          DURATION
-                        </p>
-                        <p className="text-lg text-[#F4F4F6]/30">_________________</p>
-                      </div>
+                        <div className="border-b border-[#F4F4F6]/20 pb-4">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            DURATION
+                          </p>
+                          <p className="text-lg text-[#F4F4F6]/30">_________________</p>
+                        </div>
 
-                      <div className="border-b border-[#F4F4F6]/20 pb-4">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          DATE
-                        </p>
-                        <p className="text-lg text-[#F4F4F6]/30">_________________</p>
-                      </div>
+                        <div className="border-b border-[#F4F4F6]/20 pb-4">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            DATE
+                          </p>
+                          <p className="text-lg text-[#F4F4F6]/30">_________________</p>
+                        </div>
 
-                      <div className="border-b border-[#F4F4F6]/20 pb-4">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          TIME
-                        </p>
-                        <p className="text-lg text-[#F4F4F6]/30">_________________</p>
-                      </div>
+                        <div className="border-b border-[#F4F4F6]/20 pb-4">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            TIME
+                          </p>
+                          <p className="text-lg text-[#F4F4F6]/30">_________________</p>
+                        </div>
 
-                      <div className="pt-2">
-                        <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
-                          TOTAL
-                        </p>
-                        <span className="bg-[#F4F4F6]/20 text-[#F4F4F6]/50 font-display text-2xl px-4 py-2 rounded-lg inline-block">
-                          $0
-                        </span>
-                      </div>
-                    </div>
-                  )}
+                        <div className="pt-2">
+                          <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">
+                            TOTAL
+                          </p>
+                          <span className="bg-[#F4F4F6]/20 text-[#F4F4F6]/50 font-display text-2xl px-4 py-2 rounded-lg inline-block">
+                            $0
+                          </span>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
       {/* Mobile/Tablet Bottom Bar */}

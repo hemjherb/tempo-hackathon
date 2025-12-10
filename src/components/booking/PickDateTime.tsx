@@ -3,9 +3,11 @@ import { useBooking } from '@/context/BookingContext';
 import { Button } from '@/components/ui/button';
 import { TimeSlotButton } from './TimeSlotButton';
 import { TimeSlot } from '@/types/booking';
-import { ChevronLeft, ChevronRight, Clock, Calendar as CalendarIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, Calendar as CalendarIcon, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { StickyFooter } from './StickyFooter';
+import { motion, AnimatePresence } from 'framer-motion';
+import { PriceDisplay } from './PriceDisplay';
 
 const generateTimeSlots = (): TimeSlot[] => {
   const slots: TimeSlot[] = [];
@@ -100,7 +102,12 @@ export function PickDateTime() {
           {/* Progress bar */}
           <div className="hidden lg:flex items-center gap-3 pt-2">
             <div className="w-32 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-              <div className="h-full w-2/4 bg-[#5B6B4E] rounded-full" />
+              <motion.div 
+                className="h-full bg-[#5B6B4E] rounded-full" 
+                initial={{ width: "25%" }}
+                animate={{ width: "50%" }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              />
             </div>
           </div>
         </div>
@@ -139,7 +146,10 @@ export function PickDateTime() {
                 {days.map((day, index) => (
                   <div key={index} className="aspect-square">
                     {day && (
-                      <button
+                      <motion.button
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: index * 0.01 }}
                         onClick={() => handleDateSelect(day)}
                         className={cn(
                           'w-full h-full rounded-lg text-sm font-medium transition-all duration-200',
@@ -148,9 +158,11 @@ export function PickDateTime() {
                             ? 'bg-[#5B6B4E] text-white'
                             : 'text-gray-700'
                         )}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                       >
                         {day}
-                      </button>
+                      </motion.button>
                     )}
                   </div>
                 ))}
@@ -159,22 +171,37 @@ export function PickDateTime() {
               {/* Time Slots */}
               <div className="mt-8">
                 <h4 className="text-sm font-medium text-gray-500 mb-4">Available Time Slots</h4>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-                  {timeSlots.map((slot) => (
-                    <TimeSlotButton
-                      key={slot.id}
-                      slot={slot}
-                      isSelected={selectedTimeSlot?.id === slot.id}
-                      onSelect={() => setSelectedTimeSlot(slot)}
-                    />
-                  ))}
-                </div>
+                <AnimatePresence mode="wait">
+                  <motion.div 
+                    key={selectedDate ? selectedDate.toISOString() : 'no-date'}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2"
+                  >
+                    {timeSlots.map((slot, index) => (
+                      <TimeSlotButton
+                        key={slot.id}
+                        slot={slot}
+                        isSelected={selectedTimeSlot?.id === slot.id}
+                        onSelect={() => setSelectedTimeSlot(slot)}
+                        index={index}
+                      />
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
           </div>
 
           {/* Right Column - Appointment Details */}
-          <div className="hidden lg:block w-[50%]">
+          <motion.div 
+            className="hidden lg:block w-[50%]"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
             <div className="sticky top-8 h-[calc(100vh-120px)]">
               {/* Appointment card with SVG background */}
               <div className="relative h-full rounded-3xl overflow-hidden">
@@ -202,39 +229,73 @@ export function PickDateTime() {
                     
                     <div className="border-b border-[#F4F4F6]/20 pb-4">
                       <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">DATE</p>
-                      {selectedDate ? (
-                        <p className="text-lg text-[#F4F4F6]">
-                          {selectedDate.toLocaleDateString('en-US', {
-                            weekday: 'short',
-                            month: 'short',
-                            day: 'numeric',
-                          })}
-                        </p>
-                      ) : (
-                        <p className="text-lg text-[#F4F4F6]/50">_________________</p>
-                      )}
+                      <AnimatePresence mode="wait">
+                        {selectedDate ? (
+                          <motion.div
+                            key={selectedDate.toISOString()}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            className="flex items-center justify-center gap-2"
+                          >
+                            <p className="text-lg text-[#F4F4F6]">
+                              {selectedDate.toLocaleDateString('en-US', {
+                                weekday: 'short',
+                                month: 'short',
+                                day: 'numeric',
+                              })}
+                            </p>
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                            >
+                              <Check className="w-4 h-4 text-[#BF994C]" />
+                            </motion.div>
+                          </motion.div>
+                        ) : (
+                          <p className="text-lg text-[#F4F4F6]/50">_________________</p>
+                        )}
+                      </AnimatePresence>
                     </div>
                     
                     <div className="border-b border-[#F4F4F6]/20 pb-4">
                       <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">TIME</p>
-                      {selectedTimeSlot ? (
-                        <p className="text-lg text-[#F4F4F6]">{selectedTimeSlot.start}</p>
-                      ) : (
-                        <p className="text-lg text-[#F4F4F6]/50">_________________</p>
-                      )}
+                      <AnimatePresence mode="wait">
+                        {selectedTimeSlot ? (
+                          <motion.div
+                            key={selectedTimeSlot.id}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            className="flex items-center justify-center gap-2"
+                          >
+                            <p className="text-lg text-[#F4F4F6]">{selectedTimeSlot.start}</p>
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                            >
+                              <Check className="w-4 h-4 text-[#BF994C]" />
+                            </motion.div>
+                          </motion.div>
+                        ) : (
+                          <p className="text-lg text-[#F4F4F6]/50">_________________</p>
+                        )}
+                      </AnimatePresence>
                     </div>
                     
                     <div className="pt-2">
                       <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">TOTAL</p>
                       <span className="bg-[#BF994C] text-white font-display text-2xl px-4 py-2 rounded-lg inline-block">
-                        ${getTotalPrice()}
+                        <PriceDisplay price={getTotalPrice()} />
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
       
