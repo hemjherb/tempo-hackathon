@@ -9,7 +9,7 @@ export function BookingSuccess() {
   const selectedService = selectedServices[0];
 
   return (
-    <div className="min-h-[calc(100vh-200px)] bg-white">
+    <div className="min-h-[calc(100vh-200px)] bg-[#FFFBF2]">
       <div className="max-w-6xl mx-auto w-full px-6 pb-8">
         {/* Header with title and progress bar */}
         <div className="flex items-start justify-between mb-8">
@@ -130,7 +130,7 @@ export function BookingSuccess() {
                 
                 {/* Logo */}
                 <div className="text-center mb-6 pt-4">
-                  <h3 className="text-[#BF994C] font-display text-2xl tracking-wider">HighCut</h3>
+                  <img src="/images/logogreen.svg" alt="Logo" className="h-8 mx-auto brightness-0 invert sepia saturate-[10] hue-rotate-[15deg]" />
                 </div>
                 
                 <h3 className="text-white/80 font-medium text-sm uppercase tracking-wider mb-6">Appointment Details</h3>

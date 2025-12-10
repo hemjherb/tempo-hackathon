@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Clock, MapPin, User, Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { StickyFooter } from './StickyFooter';
 
 const products = [
   {
@@ -67,7 +68,7 @@ export function YourDetails() {
   const selectedService = selectedServices[0];
 
   return (
-    <div className="min-h-[calc(100vh-200px)] bg-white">
+    <div className="min-h-[calc(100vh-200px)] bg-[#FFFBF2] pb-24">
       <div className="max-w-6xl mx-auto w-full px-6 pb-8">
         {/* Header with title and progress bar */}
         <div className="flex items-start justify-between mb-8">
@@ -143,23 +144,14 @@ export function YourDetails() {
 
                 <Button
                   onClick={handleSubmit}
-                  className="w-full bg-[#BF994C] hover:bg-[#A8824A] hover:scale-[1.01] text-white py-6 text-base font-medium rounded-lg mt-4 transition-all"
+                  className="hidden w-full bg-[#BF994C] hover:bg-[#A8824A] hover:scale-[1.01] text-white py-6 text-base font-medium rounded-lg mt-4 transition-all"
                 >
                   Request Payment
                 </Button>
               </div>
             </div>
 
-            {/* Back Button */}
-            <div className="mt-4">
-              <Button
-                onClick={() => setCurrentStep(2)}
-                variant="outline"
-                className="w-full py-6 text-base font-medium rounded-lg border-gray-200"
-              >
-                Back
-              </Button>
-            </div>
+            {/* Back Button - Hidden, using sticky footer instead */}
 
             {/* Product Recommendations */}
             <div className="mt-8">
@@ -200,7 +192,7 @@ export function YourDetails() {
                 
                 {/* Logo */}
                 <div className="text-center mb-6 pt-4">
-                  <h3 className="text-[#BF994C] font-display text-2xl tracking-wider">HighCut</h3>
+                  <img src="/images/logogreen.svg" alt="Logo" className="h-8 mx-auto brightness-0 invert sepia saturate-[10] hue-rotate-[15deg]" />
                 </div>
                 
                 <h3 className="text-white/80 font-medium text-sm uppercase tracking-wider mb-6">Appointment Details</h3>
@@ -276,6 +268,15 @@ export function YourDetails() {
           </div>
         </div>
       </div>
+      
+      {/* Sticky Footer */}
+      <StickyFooter
+        onProceed={handleSubmit}
+        onBack={() => setCurrentStep(2)}
+        canProceed={true}
+        showBack={true}
+        proceedLabel="Request Payment"
+      />
     </div>
   );
 }

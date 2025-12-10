@@ -5,6 +5,7 @@ import { TimeSlotButton } from './TimeSlotButton';
 import { TimeSlot } from '@/types/booking';
 import { ChevronLeft, ChevronRight, Clock, Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { StickyFooter } from './StickyFooter';
 
 const generateTimeSlots = (): TimeSlot[] => {
   const slots: TimeSlot[] = [];
@@ -88,7 +89,7 @@ export function PickDateTime() {
   const selectedService = selectedServices[0];
 
   return (
-    <div className="min-h-[calc(100vh-200px)] bg-white">
+    <div className="min-h-[calc(100vh-200px)] bg-[#FFFBF2] pb-24">
       <div className="max-w-6xl mx-auto w-full px-6 pb-8">
         {/* Header with title and progress bar */}
         <div className="flex items-start justify-between mb-8">
@@ -170,29 +171,6 @@ export function PickDateTime() {
                 </div>
               </div>
             </div>
-
-            {/* Navigation Buttons */}
-            <div className="mt-8 flex gap-4">
-              <Button
-                onClick={() => setCurrentStep(1)}
-                variant="outline"
-                className="flex-1 py-6 text-base font-medium rounded-lg border-gray-200"
-              >
-                Back
-              </Button>
-              <Button
-                onClick={() => setCurrentStep(3)}
-                disabled={!canContinue}
-                className={cn(
-                  "flex-1 py-6 text-base font-medium rounded-lg transition-all",
-                  canContinue
-                    ? "bg-[#BF994C] hover:bg-[#A8824A] hover:scale-[1.01] text-white"
-                    : "bg-[#CCCCCC] text-white/70 cursor-not-allowed"
-                )}
-              >
-                Proceed
-              </Button>
-            </div>
           </div>
 
           {/* Right Column - Appointment Details */}
@@ -209,7 +187,7 @@ export function PickDateTime() {
                 
                 {/* Logo */}
                 <div className="text-center mb-6 pt-4">
-                  <h3 className="text-[#BF994C] font-display text-2xl tracking-wider">HighCut</h3>
+                  <img src="/images/logogreen.svg" alt="Logo" className="h-8 mx-auto brightness-0 invert sepia saturate-[10] hue-rotate-[15deg]" />
                 </div>
                 
                 <h3 className="text-white/80 font-medium text-sm uppercase tracking-wider mb-6">Appointment Details</h3>
@@ -284,6 +262,15 @@ export function PickDateTime() {
           </div>
         </div>
       </div>
+      
+      {/* Sticky Footer */}
+      <StickyFooter
+        onProceed={() => setCurrentStep(3)}
+        onBack={() => setCurrentStep(1)}
+        canProceed={!!canContinue}
+        showBack={true}
+        proceedLabel="Proceed"
+      />
     </div>
   );
 }
