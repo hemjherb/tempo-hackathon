@@ -103,10 +103,6 @@ export function SelectServices() {
                 
                 {/* Content overlay */}
                 <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
-                  <h3 className="text-[#F4F4F6] font-medium text-sm uppercase tracking-wider mb-6">
-                    Appointment Details
-                  </h3>
-
                   {selectedService ? (
                     <div className="space-y-4 w-full max-w-xs">
                       <div className="border-b border-[#F4F4F6]/20 pb-4">

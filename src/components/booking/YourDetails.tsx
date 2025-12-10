@@ -180,9 +180,9 @@ export function YourDetails() {
 
           {/* Right Column - Appointment Details */}
           <div className="hidden lg:block w-[50%]">
-            <div className="sticky top-8 h-[calc(100vh-120px)]">
+            <div className="sticky top-8">
               {/* Appointment card with SVG background */}
-              <div className="relative h-full rounded-3xl overflow-hidden">
+              <div className="relative min-h-[500px] rounded-3xl overflow-hidden">
                 {/* Background SVG */}
                 <img 
                   src="/images/appointment.svg" 
@@ -192,8 +192,6 @@ export function YourDetails() {
                 
                 {/* Content overlay */}
                 <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-center">
-                  <h3 className="text-[#F4F4F6] font-medium text-sm uppercase tracking-wider mb-6">Appointment Details</h3>
-                  
                   <div className="space-y-4 w-full max-w-xs">
                     <div className="border-b border-[#F4F4F6]/20 pb-4">
                       <p className="text-xs text-[#F4F4F6]/60 uppercase tracking-wider mb-1">SERVICE</p>
