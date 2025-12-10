@@ -25,83 +25,107 @@ export function BookingSuccess() {
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Column - Success Message */}
-          <div className="w-full lg:w-[60%]">
-            {/* Success Card */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-[#5B6B4E]/10 rounded-full mb-6">
-                <CheckCircle className="w-10 h-10 text-[#5B6B4E]" />
-              </div>
-              <h3 className="text-2xl font-display text-gray-800 mb-2">Booking Successful!</h3>
-              <p className="text-gray-500 mb-8">
-                We've sent a confirmation to your email
-              </p>
-
-              {/* Booking Details */}
-              <div className="text-left bg-gray-50 rounded-xl p-6 space-y-4">
-                {selectedServices.map((service) => (
-                  <div key={service.id} className="flex justify-between items-center">
-                    <span className="text-gray-700">{service.name}</span>
-                    <span className="font-display text-gray-800">${service.price}</span>
-                  </div>
+        <div className="flex justify-center">
+          {/* Single Green Ticket Card */}
+          <div className="w-full max-w-md">
+            {/* Ticket-style summary card */}
+            <div className="bg-[#2C3E2D] rounded-3xl p-8 relative overflow-hidden">
+              {/* Scalloped edge effect - top */}
+              <div className="absolute top-0 left-0 right-0 h-4 flex justify-around">
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <div key={i} className="w-4 h-4 bg-[#FFFBF2] rounded-full -mt-2" />
                 ))}
-                
-                <div className="border-t border-gray-200 pt-4 space-y-3">
-                  {selectedDate && selectedTimeSlot && (
-                    <div className="flex items-center gap-3 text-sm">
-                      <CalendarIcon className="w-4 h-4 text-[#5B6B4E]" />
-                      <span className="text-gray-600">
-                        {selectedDate.toLocaleDateString('en-US', {
-                          weekday: 'long',
-                          month: 'long',
-                          day: 'numeric',
-                        })} at {selectedTimeSlot.start}
-                      </span>
-                    </div>
-                  )}
-                  
-                  <div className="flex items-center gap-3 text-sm">
-                    <Clock className="w-4 h-4 text-[#5B6B4E]" />
-                    <span className="text-gray-600">Duration: {getTotalDuration()} min</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 text-sm">
-                    <User className="w-4 h-4 text-[#5B6B4E]" />
-                    <span className="text-gray-600">Stylist: {stylist}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 text-sm">
-                    <MapPin className="w-4 h-4 text-[#5B6B4E]" />
-                    <span className="text-gray-600">{location}</span>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-sm">
-                    <Phone className="w-4 h-4 text-[#5B6B4E]" />
-                    <span className="text-gray-600">{customerDetails.name}</span>
-                  </div>
+              </div>
+              
+              {/* Success Header */}
+              <div className="text-center pt-4 mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-full mb-4">
+                  <CheckCircle className="w-8 h-8 text-[#BF994C]" />
                 </div>
-
-                <div className="border-t border-gray-200 pt-4">
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold text-gray-800">Total Paid</span>
-                    <span className="text-2xl font-display text-[#BF994C]">${getTotalPrice()}</span>
-                  </div>
-                </div>
+                <h3 className="text-2xl font-display text-white mb-1">Booking Successful!</h3>
+                <p className="text-white/60 text-sm">
+                  We've sent a confirmation to your email
+                </p>
               </div>
 
+              {/* Dashed divider */}
+              <div className="border-t border-dashed border-white/30 my-6 relative">
+                <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#FFFBF2] rounded-full" />
+                <div className="absolute -right-12 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#FFFBF2] rounded-full" />
+              </div>
+              
+              <div className="space-y-4">
+                <div className="border-b border-white/20 pb-4">
+                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">SERVICE</p>
+                  <h4 className="text-xl font-display text-white">
+                    {selectedService?.name || 'Service'}
+                  </h4>
+                </div>
+                
+                <div className="border-b border-white/20 pb-4">
+                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">DURATION</p>
+                  <p className="text-lg text-white">{getTotalDuration()} mins</p>
+                </div>
+                
+                <div className="border-b border-white/20 pb-4">
+                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">DATE & TIME</p>
+                  {selectedDate && selectedTimeSlot ? (
+                    <p className="text-lg text-white">
+                      {selectedDate.toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                      })} at {selectedTimeSlot.start}
+                    </p>
+                  ) : (
+                    <p className="text-lg text-white/50">_________________</p>
+                  )}
+                </div>
+                
+                <div className="border-b border-white/20 pb-4">
+                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">STYLIST</p>
+                  <p className="text-lg text-white">{stylist}</p>
+                </div>
+                
+                <div className="border-b border-white/20 pb-4">
+                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">LOCATION</p>
+                  <p className="text-lg text-white">{location}</p>
+                </div>
+                
+                <div className="border-b border-white/20 pb-4">
+                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">CONTACT</p>
+                  <p className="text-lg text-white">{customerDetails.name}</p>
+                  <p className="text-sm text-white/70">{customerDetails.email}</p>
+                  <p className="text-sm text-white/70">{customerDetails.phone}</p>
+                </div>
+                
+                <div className="pt-2">
+                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">TOTAL PAID</p>
+                  <span className="bg-[#BF994C] text-white font-display text-2xl px-4 py-2 rounded-lg inline-block">
+                    ${getTotalPrice()}
+                  </span>
+                </div>
+              </div>
+              
               {/* QR Code */}
               <div className="mt-6 flex justify-center">
-                <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
+                <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center">
                   <div className="grid grid-cols-5 gap-0.5">
                     {Array.from({ length: 25 }).map((_, i) => (
                       <div
                         key={i}
-                        className={`w-3 h-3 ${Math.random() > 0.5 ? 'bg-gray-800' : 'bg-white'}`}
+                        className={`w-3 h-3 ${Math.random() > 0.5 ? 'bg-[#2C3E2D]' : 'bg-white'}`}
                       />
                     ))}
                   </div>
                 </div>
+              </div>
+              
+              {/* Scalloped edge effect - bottom */}
+              <div className="absolute bottom-0 left-0 right-0 h-4 flex justify-around">
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <div key={i} className="w-4 h-4 bg-[#FFFBF2] rounded-full mt-2" />
+                ))}
               </div>
             </div>
 
@@ -113,101 +137,6 @@ export function BookingSuccess() {
               >
                 Book Another Appointment
               </Button>
-            </div>
-          </div>
-
-          {/* Right Column - Appointment Details */}
-          <div className="hidden lg:block w-[40%]">
-            <div className="sticky top-8">
-              {/* Ticket-style summary card */}
-              <div className="bg-[#2C3E2D] rounded-3xl p-8 min-h-[500px] relative overflow-hidden">
-                {/* Scalloped edge effect - top */}
-                <div className="absolute top-0 left-0 right-0 h-4 flex justify-around">
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <div key={i} className="w-4 h-4 bg-white rounded-full -mt-2" />
-                  ))}
-                </div>
-                
-                {/* Logo */}
-                <div className="text-center mb-6 pt-4">
-                  <img src="/images/logogreen.svg" alt="Logo" className="h-8 mx-auto brightness-0 invert sepia saturate-[10] hue-rotate-[15deg]" />
-                </div>
-                
-                <h3 className="text-white/80 font-medium text-sm uppercase tracking-wider mb-6">Appointment Details</h3>
-                
-                <div className="space-y-4">
-                  <div className="border-b border-white/20 pb-4">
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">SERVICE</p>
-                    <h4 className="text-xl font-display text-white">
-                      {selectedService?.name || 'Service'}
-                    </h4>
-                  </div>
-                  
-                  <div className="border-b border-white/20 pb-4">
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">DURATION</p>
-                    <p className="text-lg text-white">{getTotalDuration()}mins</p>
-                  </div>
-                  
-                  <div className="border-b border-white/20 pb-4">
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">DATE & TIME</p>
-                    {selectedDate && selectedTimeSlot ? (
-                      <p className="text-lg text-white">
-                        {selectedDate.toLocaleDateString('en-US', {
-                          weekday: 'short',
-                          month: 'short',
-                          day: 'numeric',
-                        })} at {selectedTimeSlot.start}
-                      </p>
-                    ) : (
-                      <p className="text-lg text-white/50">_________________</p>
-                    )}
-                  </div>
-                  
-                  <div className="border-b border-white/20 pb-4">
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">STYLIST</p>
-                    <p className="text-lg text-white">{stylist}</p>
-                  </div>
-                  
-                  <div className="border-b border-white/20 pb-4">
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">LOCATION</p>
-                    <p className="text-lg text-white">{location}</p>
-                  </div>
-                  
-                  <div className="border-b border-white/20 pb-4">
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">CONTACT</p>
-                    <p className="text-lg text-white">{customerDetails.name}</p>
-                    <p className="text-sm text-white/70">{customerDetails.email}</p>
-                  </div>
-                  
-                  <div className="pt-2">
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">TOTAL</p>
-                    <span className="bg-[#BF994C] text-white font-display text-2xl px-4 py-2 rounded-lg inline-block">
-                      ${getTotalPrice()}
-                    </span>
-                  </div>
-                </div>
-                
-                {/* QR Code placeholder */}
-                <div className="mt-6 flex justify-center">
-                  <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center">
-                    <div className="grid grid-cols-5 gap-0.5">
-                      {Array.from({ length: 25 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className={`w-3 h-3 ${Math.random() > 0.5 ? 'bg-[#2C3E2D]' : 'bg-white'}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Scalloped edge effect - bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-4 flex justify-around">
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <div key={i} className="w-4 h-4 bg-white rounded-full mt-2" />
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -16,8 +16,8 @@ export function Header() {
             
             {/* Navigation */}
             <nav className="hidden md:flex items-center gap-8">
-              <a href="#" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Home</a>
-              <a href="#" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Appointments</a>
+              <a href="/" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Home</a>
+              <a href="/appointments" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Appointments</a>
             </nav>
             
             {/* Book Button */}
